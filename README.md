@@ -69,7 +69,7 @@ Follow the steps below to install the service.
 
 ```bash
 # Clone the repository
-git clone https://github.com/Kayozkx/scrolllock-rgb-fix.git
+git clone https://github.com/kayo-willian/scrolllock-rgb-fix.git
 
 # Enter the project directory
 cd scrolllock-rgb-fix
