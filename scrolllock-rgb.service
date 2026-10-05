@@ -1,8 +1,10 @@
 [Unit]
-Description=Synchronizes the Scroll Lock LED with the keyboard RGB
+Description=Scroll Lock Keyboard RGB Fix
+Documentation=https://github.com/kayo-willian/scrolllock-rgb-fix
 After=multi-user.target
 
 [Service]
+Type=simple
 ExecStart=/usr/bin/python3 /usr/local/bin/scrolllock-rgb.py
 Restart=always
 RestartSec=2
