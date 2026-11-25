@@ -1,5 +1,7 @@
 # Contributing to Scroll Lock Keyboard RGB Fix
 
+[Português (Brasil)](pt-BR/CONTRIBUICAO.md)
+
 Contributions are welcome. This is an independent Linux utility for keyboards whose firmware responds to the physical Scroll Lock LED. You can fork it, improve documentation, report hardware results or submit a focused fix. These guidelines apply to upstream contributions, not independent forks under the [MIT license](LICENSE).
 
 ## Scope
@@ -61,7 +63,7 @@ Search existing issues and pull requests first. Use the bug report or feature pr
 
 Do not publish raw key events, typed text, private logs, serial numbers, personal paths or credentials. Report suspected vulnerabilities through [SECURITY.md](SECURITY.md).
 
-Keep code, comments, commits and PR descriptions in English. Preserve the existing English and Brazilian Portuguese READMEs and update both for significant usage changes. Update [CHANGELOG.md](CHANGELOG.md) under Unreleased for meaningful changes. Explain compatibility, actual validation and untested cases. For docs-only work, check links, commands and accuracy.
+Keep code, comments, commits and PR descriptions in English. Keep the English community documents and their Brazilian Portuguese translations under `pt-BR/` aligned. Update both versions for significant usage or policy changes. Update [CHANGELOG.md](CHANGELOG.md) under Unreleased for meaningful changes. Explain compatibility, actual validation and untested cases. For docs-only work, check links, commands and accuracy.
 
 Disclose material AI assistance, verify the changes yourself, credit external work and submit only material you have the right to contribute under MIT. Do not invent authorship, test results or supported platforms.
 
