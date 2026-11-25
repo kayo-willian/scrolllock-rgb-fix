@@ -169,15 +169,15 @@ Os testes verificam sintaxe, arquivos esperados e simulações de detecção, es
 São bem-vindos relatos de compatibilidade, testes de regressão, melhorias na documentação, correções de detecção de dispositivos e propostas para melhorar a instalação ou o ciclo de vida do serviço.
 
 1. [Faça um fork](https://github.com/kayo-willian/scrolllock-rgb-fix/fork).
-2. Leia o [guia de contribuição](CONTRIBUTING.md), crie uma branch específica e execute os testes offline.
+2. Leia o [guia de contribuição](CONTRIBUICAO.md), crie uma branch específica e execute os testes offline.
 3. Realize a mudança, acrescente testes pertinentes e documente os resultados reais.
 4. Abra um Pull Request para a branch `main`.
 
 | Recurso | Finalidade |
 |---|---|
-| [Guia de contribuição](CONTRIBUTING.md) | Fluxo, segurança e testes |
-| [Código de conduta](CODE_OF_CONDUCT.md) | Participação respeitosa |
-| [Política de segurança](SECURITY.md) | Comunicação privada responsável |
+| [Guia de contribuição](CONTRIBUICAO.md) | Fluxo, segurança e testes |
+| [Código de conduta](CODIGO_DE_CONDUTA.md) | Participação respeitosa |
+| [Política de segurança](SEGURANCA.md) | Comunicação privada responsável |
 | [Issues](https://github.com/kayo-willian/scrolllock-rgb-fix/issues) | Erros, compatibilidade e propostas |
 | [Pull Requests](https://github.com/kayo-willian/scrolllock-rgb-fix/pulls) | Alterações propostas e revisões |
 | [Histórico](../CHANGELOG.md) | Histórico de desenvolvimento |

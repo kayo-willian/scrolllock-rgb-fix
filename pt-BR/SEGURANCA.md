@@ -18,4 +18,4 @@ Inclua o commit afetado, distribuição, versões relevantes do runtime, limite 
 
 Nunca publique texto digitado, fluxos brutos de eventos de entrada, logs privados, credenciais ou informações que identifiquem dispositivos. Dê ao mantenedor uma oportunidade razoável de investigar antes de publicar detalhes exploráveis.
 
-Bugs comuns não sensíveis devem ser relatados em Issues. Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e o [guia de diagnóstico](../docs/troubleshooting.md). Caso uma instalação local apresente comportamento inesperado, pare o serviço e inspecione-o em vez de enfraquecer as permissões do sistema.
+Bugs comuns não sensíveis devem ser relatados em Issues. Consulte [CONTRIBUICAO.md](CONTRIBUICAO.md) e o [guia de diagnóstico](../docs/troubleshooting.md). Caso uma instalação local apresente comportamento inesperado, pare o serviço e inspecione-o em vez de enfraquecer as permissões do sistema.

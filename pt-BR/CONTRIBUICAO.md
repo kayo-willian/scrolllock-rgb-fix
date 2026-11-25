@@ -63,10 +63,10 @@ Testes reais são opcionais. Use um teclado não crítico e um método de entrad
 
 Pesquise issues e pull requests existentes antes de abrir outro. Use o modelo de relato de bug ou proposta de funcionalidade; inclua reprodução mínima, comportamento esperado e observado e evidências sanitizadas. Issues e modelos criados pelo projeto são bilíngues. Colaboradores podem escrever em inglês ou português brasileiro sem precisar traduzir seus próprios relatos.
 
-Não publique eventos brutos de teclado, texto digitado, logs privados, números de série, caminhos pessoais ou credenciais. Relate suspeitas de vulnerabilidades por [SECURITY.md](SECURITY.md).
+Não publique eventos brutos de teclado, texto digitado, logs privados, números de série, caminhos pessoais ou credenciais. Relate suspeitas de vulnerabilidades por [SEGURANCA.md](SEGURANCA.md).
 
 Mantenha código, comentários, commits e descrições de PR em inglês. Mantenha os documentos comunitários em inglês alinhados às traduções em português brasileiro dentro de `pt-BR/`. Atualize ambas as versões para mudanças significativas de uso ou política. Atualize a seção Unreleased do [CHANGELOG.md](../CHANGELOG.md) para mudanças relevantes. Explique compatibilidade, validação efetivamente realizada e casos não testados. Para alterações exclusivamente documentais, confira links, comandos e precisão.
 
 Declare assistência relevante de IA, verifique as alterações, credite trabalhos externos e envie somente material que tenha direito de contribuir sob MIT. Não invente autoria, resultados de testes ou plataformas suportadas.
 
-PRs são revisados antes do merge. Não há prazo prometido de resposta ou lançamento. Siga o [código de conduta](CODE_OF_CONDUCT.md).
+PRs são revisados antes do merge. Não há prazo prometido de resposta ou lançamento. Siga o [código de conduta](CODIGO_DE_CONDUTA.md).

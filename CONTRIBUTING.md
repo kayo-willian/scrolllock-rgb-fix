@@ -1,6 +1,6 @@
 # Contributing to Scroll Lock Keyboard RGB Fix
 
-[Português (Brasil)](pt-BR/CONTRIBUTING.md)
+[Português (Brasil)](pt-BR/CONTRIBUICAO.md)
 
 Contributions are welcome. This is an independent Linux utility for keyboards whose firmware responds to the physical Scroll Lock LED. You can fork it, improve documentation, report hardware results or submit a focused fix. These guidelines apply to upstream contributions, not independent forks under the [MIT license](LICENSE).
 
