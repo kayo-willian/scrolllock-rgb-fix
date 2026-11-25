@@ -4,10 +4,10 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![systemd](https://img.shields.io/badge/systemd-integrado-orange?logo=linux)](https://systemd.io)
 [![Wayland](https://img.shields.io/badge/Wayland-GNOME%2049%2B-informational)](https://wayland.freedesktop.org)
-[![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](LICENSE)
+[![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](../LICENSE)
 
 
-[English](README.md) · [Instalação](#instalação) · [Diagnóstico](docs/troubleshooting.md) · [Contribuição](#contribuição) · [Histórico](CHANGELOG.md)
+[English](../README.md) · [Instalação](#instalação) · [Diagnóstico](../docs/troubleshooting.md) · [Contribuição](#contribuição) · [Histórico](../CHANGELOG.md)
 
 Serviço leve para Linux destinado a teclados cujo firmware liga ou desliga a iluminação RGB através do LED físico de Scroll Lock. Comecei este projeto para resolver o problema no meu próprio ambiente GNOME/Wayland. O daemon utiliza Python, evdev, sysfs e systemd em vez de um driver RGB proprietário.
 
@@ -27,14 +27,14 @@ As imagens abaixo ilustram o teclado que motivou este projeto e os dois estados 
 
 | RGB desligado | RGB ligado |
 |---|---|
-| <img src="docs/images/0-enhanced.png" alt="Teclado com RGB desligado e indicador de Num Lock aceso" width="480"> | <img src="docs/images/1-enhanced.png" alt="Teclado com iluminação RGB ligada" width="480"> |
-| [Fotografia original](docs/images/0-original.png) | [Fotografia original](docs/images/1-original.png) |
+| <img src="../docs/images/0-enhanced.png" alt="Teclado com RGB desligado e indicador de Num Lock aceso" width="480"> | <img src="../docs/images/1-enhanced.png" alt="Teclado com iluminação RGB ligada" width="480"> |
+| [Fotografia original](../docs/images/0-original.png) | [Fotografia original](../docs/images/1-original.png) |
 
 ### A tecla Scroll Lock
 
-<img src="docs/images/2-enhanced.png" alt="Detalhe da tecla Scroll Lock com o símbolo de iluminação" width="360">
+<img src="../docs/images/2-enhanced.png" alt="Detalhe da tecla Scroll Lock com o símbolo de iluminação" width="360">
 
-[Fotografia original](docs/images/2-original.png)
+[Fotografia original](../docs/images/2-original.png)
 
 O símbolo de iluminação na tecla Scroll Lock indica sua função neste teclado específico. O firmware utiliza o estado do LED de Scroll Lock para ligar ou desligar a iluminação; o daemon não controla diretamente os LEDs RGB individuais.
 
@@ -79,11 +79,11 @@ O instalador possui rotinas para os gerenciadores abaixo. Isso **não** represen
 | openSUSE | zypper | python3-evdev |
 | Sistemas com apk | apk | py3-evdev |
 
-A rotina apk não estabelece suporte ao Alpine/OpenRC: o projeto fornece uma unidade systemd, não um serviço OpenRC. A disponibilidade dos pacotes pode variar. Outros compositores e distribuições podem funcionar, mas não há garantia. O alvo original foi Ubuntu com GNOME/Wayland; consulte o [guia técnico histórico](docs/RGB_ScrollLock_Ubuntu_EN.pdf).
+A rotina apk não estabelece suporte ao Alpine/OpenRC: o projeto fornece uma unidade systemd, não um serviço OpenRC. A disponibilidade dos pacotes pode variar. Outros compositores e distribuições podem funcionar, mas não há garantia. O alvo original foi Ubuntu com GNOME/Wayland; consulte o [guia técnico histórico](../docs/RGB_ScrollLock_Ubuntu_EN.pdf).
 
 ## Instalação
 
-Revise [install.sh](install.sh), [a unidade de serviço](scrolllock-rgb.service) e o [guia de diagnóstico](docs/troubleshooting.md). Use um equipamento não crítico e mantenha uma forma alternativa de entrada.
+Revise [install.sh](../install.sh), [a unidade de serviço](../scrolllock-rgb.service) e o [guia de diagnóstico](../docs/troubleshooting.md). Use um equipamento não crítico e mantenha uma forma alternativa de entrada.
 
 ```sh
 git clone https://github.com/kayo-willian/scrolllock-rgb-fix.git
@@ -110,7 +110,7 @@ journalctl -u scrolllock-rgb.service -n 50 --no-pager
 journalctl -u scrolllock-rgb.service -f
 ```
 
-Um serviço ativo ainda pode estar aguardando um dispositivo. Confira o teclado e o LED identificados nos logs e siga o [guia de diagnóstico](docs/troubleshooting.md) para testar um LED específico. Não escreva em todos os LEDs encontrados se houver vários teclados.
+Um serviço ativo ainda pode estar aguardando um dispositivo. Confira o teclado e o LED identificados nos logs e siga o [guia de diagnóstico](../docs/troubleshooting.md) para testar um LED específico. Não escreva em todos os LEDs encontrados se houver vários teclados.
 
 Para parar temporariamente ou desabilitar a inicialização automática:
 
@@ -127,7 +127,7 @@ sudo systemctl enable --now scrolllock-rgb.service
 
 ## Atualização e remoção
 
-Não há comando dedicado de atualização. Consulte o [histórico](CHANGELOG.md), pare o serviço, atualize o clone e execute o instalador novamente apenas se aceitar a substituição dos arquivos:
+Não há comando dedicado de atualização. Consulte o [histórico](../CHANGELOG.md), pare o serviço, atualize o clone e execute o instalador novamente apenas se aceitar a substituição dos arquivos:
 
 ```sh
 sudo systemctl stop scrolllock-rgb.service
@@ -180,10 +180,10 @@ São bem-vindos relatos de compatibilidade, testes de regressão, melhorias na d
 | [Política de segurança](SECURITY.md) | Comunicação privada responsável |
 | [Issues](https://github.com/kayo-willian/scrolllock-rgb-fix/issues) | Erros, compatibilidade e propostas |
 | [Pull Requests](https://github.com/kayo-willian/scrolllock-rgb-fix/pulls) | Alterações propostas e revisões |
-| [Histórico](CHANGELOG.md) | Histórico de desenvolvimento |
+| [Histórico](../CHANGELOG.md) | Histórico de desenvolvimento |
 
-As issues criadas pelo projeto e seus modelos são bilíngues; participantes podem escrever em português brasileiro ou inglês. Código, commits e PRs utilizam inglês. Este README em português acompanha a versão original em inglês. Não há prazo garantido de resposta ou lançamento. Forks independentes permanecem livres sob MIT.
+As issues criadas pelo projeto e seus modelos são bilíngues; participantes podem escrever em português brasileiro ou inglês. Código, commits e PRs utilizam inglês. O README, o guia de contribuição, o código de conduta e a política de segurança estão disponíveis em inglês e português brasileiro. A documentação técnica interna permanece em inglês. Não há prazo garantido de resposta ou lançamento. Forks independentes permanecem livres sob MIT.
 
 ## Licença
 
-[Licença MIT](LICENSE).
+[Licença MIT](../LICENSE).

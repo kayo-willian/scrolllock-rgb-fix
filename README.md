@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 
-[Português (Brasil)](README.pt-BR.md) · [Installation](#installation) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](#contributing) · [Changelog](CHANGELOG.md)
+[Português (Brasil)](pt-BR/README.md) · [Installation](#installation) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](#contributing) · [Changelog](CHANGELOG.md)
 
 A lightweight Linux background service for keyboards whose firmware switches RGB lighting on or off through the physical Scroll Lock LED. I started this project to address the problem on my own GNOME/Wayland setup. The daemon uses Python, evdev, sysfs and systemd rather than a proprietary RGB driver.
 
@@ -182,7 +182,7 @@ Contributions are welcome, including hardware compatibility reports, regression 
 | [Pull requests](https://github.com/kayo-willian/scrolllock-rgb-fix/pulls) | Proposed changes and reviews |
 | [Changelog](CHANGELOG.md) | Development history |
 
-Project-created issues and issue templates are bilingual; participants may write in English or Brazilian Portuguese. Source code, commits and PRs use English. The existing Portuguese README is maintained alongside this one. Contributions are reviewed when time permits; no release or response deadline is promised. Independent MIT-licensed forks remain free to evolve.
+Project-created issues and issue templates are bilingual; participants may write in English or Brazilian Portuguese. Source code, commits and PRs use English. The README, contribution guide, code of conduct and security policy are available in English and Brazilian Portuguese in [pt-BR/](pt-BR/README.md). Internal technical documentation remains in English. Contributions are reviewed when time permits; no release or response deadline is promised. Independent MIT-licensed forks remain free to evolve.
 
 ## License
 

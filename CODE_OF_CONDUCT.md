@@ -1,5 +1,7 @@
 # Code of Conduct
 
+[Português (Brasil)](pt-BR/CODE_OF_CONDUCT.md)
+
 This project welcomes contributors of different backgrounds and experience levels. Keep discussions respectful, accessible and focused on the work.
 
 ## Expected behavior

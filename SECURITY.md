@@ -1,5 +1,7 @@
 # Security Policy
 
+[Português (Brasil)](pt-BR/SECURITY.md)
+
 ## Scope
 
 Scroll Lock RGB Fix runs a privileged systemd service that reads evdev input events and writes to sysfs. The current development branch is `main`. There is no promised support period, response SLA or bug bounty.
