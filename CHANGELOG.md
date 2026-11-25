@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Pair the keyboard with its own Scroll Lock LED. Skip missing or ambiguous matches.
+
 ### Added
 - Code of conduct, security reporting policy, bilingual issue templates and an English pull request template.
 

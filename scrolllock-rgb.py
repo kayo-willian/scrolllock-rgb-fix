@@ -54,40 +54,44 @@ signal.signal(signal.SIGINT, sig_handler)
 signal.signal(signal.SIGTERM, sig_handler)
 
 
-def find_led_path() -> Optional[str]:
-    """Locate the Scroll Lock LED brightness file under /sys/class/leds/."""
-    matches = glob.glob("/sys/class/leds/*scrolllock*/brightness")
-    if matches:
-        return matches[0]
-    dirs = glob.glob("/sys/class/leds/*scrolllock*")
-    for d in dirs:
-        b_path = os.path.join(d, "brightness")
-        if os.path.exists(b_path):
-            return b_path
-    return None
+def find_keyboard_led():
+    """Return an eligible keyboard and its unique Scroll Lock LED, or None.
 
-
-def find_keyboard() -> Optional[InputDevice]:
-    """Find the actual keyboard among all input devices.
-
-    The device must support both the Scroll Lock key and the A key in
-    order to filter out auxiliary devices such as 'Consumer Control'
-    or 'System Control'.
+    Both sysfs class devices link to their owning input device through
+    'device'. Compare that exact parent, not the USB ancestor: composite
+    devices may expose unrelated input interfaces on the same USB device.
     """
+    leds = {}
+    for brightness in glob.glob("/sys/class/leds/*:scrolllock/brightness"):
+        owner = os.path.realpath(os.path.join(os.path.dirname(brightness), "device"))
+        if os.path.isdir(owner):
+            leds.setdefault(owner, []).append(brightness)
+
+    if not leds:
+        return None
+
     try:
         device_paths = evdev.list_devices()
-    except Exception as e:
-        logger.warning(f"Error listing input devices: {e}")
+    except OSError as exc:
+        logger.warning(f"Error listing input devices: {exc}")
         return None
 
     for path in device_paths:
+        owner = os.path.realpath(os.path.join("/sys/class/input", os.path.basename(path), "device"))
+        matches = leds.get(owner, [])
+        if len(matches) != 1:
+            continue
         try:
             dev = InputDevice(path)
-            caps = dev.capabilities().get(ecodes.EV_KEY, [])
-            if ecodes.KEY_SCROLLLOCK in caps and ecodes.KEY_A in caps:
-                return dev
-        except (PermissionError, OSError):
+        except OSError:
             continue
+        try:
+            keys = dev.capabilities().get(ecodes.EV_KEY, [])
+            if ecodes.KEY_SCROLLLOCK in keys and ecodes.KEY_A in keys:
+                return dev, matches[0]
+        except OSError:
+            pass  # Device disappeared between discovery and inspection.
+        dev.close()
     return None
 
 
@@ -149,21 +153,15 @@ def main():
     logger.info("Starting Scroll Lock RGB Fix service v2.0...")
 
     while not _shutdown_requested:
-        led_path = find_led_path()
-        device = find_keyboard()
-
-        if led_path and device:
+        pair = find_keyboard_led()
+        if pair:
+            device, led_path = pair
             run_keyboard_listener(device, led_path)
             if _shutdown_requested:
                 break
             logger.info(f"Re-detecting devices in {RETRY_INTERVAL}s...")
         else:
-            missing = []
-            if not device:
-                missing.append("keyboard")
-            if not led_path:
-                missing.append("Scroll Lock LED")
-            logger.info(f"{' and '.join(missing)} not found. Retrying in {RETRY_INTERVAL}s...")
+            logger.info(f"No keyboard with a matching Scroll Lock LED. Retrying in {RETRY_INTERVAL}s...")
 
         time.sleep(RETRY_INTERVAL)
 

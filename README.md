@@ -57,7 +57,7 @@ flowchart TD
 - Retries discovery after a detected disconnection or when a device is missing, with a two-second interval.
 - Runs under systemd, which is configured to restart the daemon.
 
-The current implementation chooses the first qualifying input device and the first matching LED independently. These may not belong to the same keyboard when several devices are connected. The listener initializes the LED to off on each attachment; the previous RGB state is not persisted. Recovery and shutdown behavior still need broader validation.
+The daemon uses the first eligible keyboard with exactly one Scroll Lock LED on the same Linux input device. It skips keyboards with missing or ambiguous LED links, even when another keyboard has a usable LED. The listener initializes the LED to off on each attachment; the previous RGB state is not persisted. Recovery and shutdown behavior still need broader validation.
 
 ## Compatibility and requirements
 

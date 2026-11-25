@@ -57,7 +57,7 @@ flowchart TD
 - Repete a detecção após desconexão identificada ou ausência de dispositivo, em intervalos de dois segundos.
 - Executa sob systemd, configurado para reiniciar o daemon.
 
-A implementação atual escolhe o primeiro teclado elegível e o primeiro LED encontrado de forma independente. Em máquinas com vários dispositivos, eles podem não pertencer ao mesmo teclado. O LED é inicializado como apagado a cada conexão do listener; o estado anterior não é persistido. A recuperação e o encerramento ainda precisam de validação mais abrangente.
+O serviço usa o primeiro teclado elegível com exatamente um LED de Scroll Lock no mesmo dispositivo de entrada do Linux. Teclados sem um LED correspondente ou com mais de um são ignorados, mesmo que outro teclado tenha um LED disponível. O LED é inicializado como apagado a cada conexão do listener; o estado anterior não é persistido. A recuperação e o encerramento ainda precisam de validação mais abrangente.
 
 ## Compatibilidade e requisitos
 

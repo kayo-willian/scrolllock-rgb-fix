@@ -43,7 +43,7 @@ grep -E 'Name|Handlers' /proc/bus/input/devices
 ls -l /sys/class/leds/*scrolllock*
 ```
 
-The daemon currently selects the first input device supporting KEY_SCROLLLOCK and KEY_A and the first matching LED separately. A second keyboard or composite HID device may cause incorrect pairing. Do not hardcode event numbers or write to an unverified LED to work around this. Report the device arrangement, sanitized names and paths, and observed behavior.
+If a keyboard is skipped, compare the device links under its event and LED entries in sysfs. They must resolve to the same input device, which must have exactly one Scroll Lock LED. Sharing a USB port or composite HID parent is not sufficient. Do not hardcode event numbers or write to an unverified LED to work around this. Report the device arrangement, sanitized names and paths, and observed behavior.
 
 ## 4. Caps Lock / Num Lock interaction
 
