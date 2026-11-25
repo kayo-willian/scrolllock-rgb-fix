@@ -8,6 +8,8 @@ Keep changes focused on Scroll Lock LED synchronization, device discovery, hotpl
 
 Hardware reports are valuable even without code. State the keyboard model if known, Linux distribution, desktop/compositor, kernel, systemd and Python/evdev versions. Separate observed results from assumptions about other systems.
 
+See the [GitHub contributors list](https://github.com/kayo-willian/scrolllock-rgb-fix/graphs/contributors) for commit credits.
+
 ## Getting started
 
 Use a Linux development machine with Git, Bash, Python and evdev. For Debian/Ubuntu, install the development dependency with `sudo apt install -y python3-evdev`. The offline tests run as an ordinary user and do not need a keyboard, root access or a running systemd manager.
