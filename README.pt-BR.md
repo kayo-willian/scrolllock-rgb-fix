@@ -13,7 +13,32 @@ Serviço leve para Linux destinado a teclados cujo firmware liga ou desliga a il
 
 ## O problema
 
-Alguns teclados gamer genéricos utilizam o LED padrão de Scroll Lock como gatilho da iluminação. Em ambientes GNOME/Wayland afetados, a tecla pode não atualizar corretamente esse LED, e mudanças de Caps Lock ou Num Lock podem apagá-lo. O projeto atua nesse comportamento específico do firmware; não é um controlador RGB universal.
+Encontrei esse problema originalmente no meu computador com Ubuntu, GNOME e Wayland, usando um teclado gamer genérico com fio. O firmware do teclado utiliza o LED físico de Scroll Lock como um interruptor para ligar ou desligar a iluminação RGB de todo o teclado.
+
+O teclado continua funcionando para digitação mesmo com a iluminação apagada. O problema é que, em ambientes GNOME/Wayland afetados, pressionar Scroll Lock não altera o LED físico de forma confiável. Mudanças de Caps Lock ou Num Lock também podem redefinir esse LED, apagando inesperadamente a iluminação.
+
+Este projeto oferece um serviço em segundo plano que detecta o pressionamento de Scroll Lock, escreve o estado desejado do LED pelo sysfs do Linux e o restaura após eventos de LED. Ele trata esse comportamento específico do firmware, não controla cores individuais, efeitos de iluminação ou todos os teclados RGB.
+
+## Demonstração visual
+
+As imagens abaixo ilustram o teclado que motivou este projeto e os dois estados da iluminação.
+
+### Iluminação RGB desligada e ligada
+
+| RGB desligado | RGB ligado |
+|---|---|
+| <img src="docs/images/0-enhanced.png" alt="Teclado com RGB desligado e indicador de Num Lock aceso" width="480"> | <img src="docs/images/1-enhanced.png" alt="Teclado com iluminação RGB ligada" width="480"> |
+| [Fotografia original](docs/images/0-original.png) | [Fotografia original](docs/images/1-original.png) |
+
+### A tecla Scroll Lock
+
+<img src="docs/images/2-enhanced.png" alt="Detalhe da tecla Scroll Lock com o símbolo de iluminação" width="360">
+
+[Fotografia original](docs/images/2-original.png)
+
+O símbolo de iluminação na tecla Scroll Lock indica sua função neste teclado específico. O firmware utiliza o estado do LED de Scroll Lock para ligar ou desligar a iluminação; o daemon não controla diretamente os LEDs RGB individuais.
+
+**Nota sobre as imagens:** As imagens exibidas são versões aprimoradas por IA das minhas fotografias originais. Alguns detalhes, incluindo as inscrições das teclas, podem diferir do equipamento real. As fotografias originais vinculadas são a referência para a aparência física. As imagens ilustram o problema e o comportamento pretendido; não comprovam testes de uma revisão específica do daemon.
 
 ## Como funciona
 
