@@ -13,7 +13,32 @@ A lightweight Linux background service for keyboards whose firmware switches RGB
 
 ## The problem
 
-Some generic gaming keyboards use the standard Scroll Lock LED as their backlight trigger. On affected GNOME/Wayland setups, pressing Scroll Lock does not reliably update that LED, and Caps Lock or Num Lock changes may reset it. This fix targets that specific firmware behavior; it is not a universal RGB controller.
+I originally encountered this issue on my own Ubuntu desktop running GNOME/Wayland, with a generic wired gaming keyboard. Its firmware uses the physical Scroll Lock indicator as an on/off switch for the RGB backlight across the entire keyboard.
+
+The keyboard can still be used for typing when its backlight is off. The problem is that pressing Scroll Lock does not reliably change the physical LED on affected GNOME/Wayland setups. Changes to Caps Lock or Num Lock can also reset that LED, unexpectedly turning off the backlight.
+
+This project provides a background service that listens for Scroll Lock presses, writes the desired LED state through Linux sysfs and reasserts it after LED events. It targets this specific firmware behavior, not individual RGB colors, lighting effects or every RGB keyboard.
+
+## Visual demonstration
+
+The images below illustrate the keyboard that motivated this project and the two backlight states.
+
+### RGB backlight off and on
+
+| RGB disabled | RGB enabled |
+|---|---|
+| <img src="docs/images/0-enhanced.png" alt="Keyboard with RGB backlight off and Num Lock indicator lit" width="480"> | <img src="docs/images/1-enhanced.png" alt="Keyboard with RGB backlight on" width="480"> |
+| [Original photograph](docs/images/0-original.png) | [Original photograph](docs/images/1-original.png) |
+
+### The Scroll Lock key
+
+<img src="docs/images/2-enhanced.png" alt="Close-up of the Scroll Lock key with the lighting symbol" width="360">
+
+[Original photograph](docs/images/2-original.png)
+
+The lighting symbol on the Scroll Lock key indicates its role on this particular keyboard. Its firmware uses the Scroll Lock LED state to switch the backlight on or off; the daemon does not directly control the individual RGB LEDs.
+
+**Image note:** The displayed images are AI-enhanced versions of my original photographs. Some details, including key legends, may differ from the actual hardware. The linked originals are the reference for physical appearance. These images illustrate the problem and intended behavior; they are not evidence of a test of any specific daemon revision.
 
 ## How it works
 
