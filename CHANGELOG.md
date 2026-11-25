@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Code of conduct, security reporting policy, bilingual issue templates and an English pull request template.
+
+### Changed
+- Update contributor onboarding, English and Portuguese READMEs and troubleshooting instructions.
+- Clarify the actual systemd requirement, independent device/LED selection, root execution, installation and removal behavior, and limits of hardware validation. No daemon, installer or service behavior changed.
+
+The existing version headings below are historical entries; this documentation update does not create a release or change a version.
+
 ---
 
 ## [2.0.0] - 2026-10-04

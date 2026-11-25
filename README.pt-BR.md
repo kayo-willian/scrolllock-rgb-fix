@@ -1,150 +1,164 @@
 # Correção de RGB do Teclado via Scroll Lock
 
-[![Linux](https://img.shields.io/badge/Linux-Suportado-brightgreen?logo=linux&logoColor=white)](https://kernel.org)
+[![Linux](https://img.shields.io/badge/Linux-systemd-555?logo=linux&logoColor=white)](https://kernel.org)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![systemd](https://img.shields.io/badge/systemd-integrado-orange?logo=linux)](https://systemd.io)
 [![Wayland](https://img.shields.io/badge/Wayland-GNOME%2049%2B-informational)](https://wayland.freedesktop.org)
 [![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](LICENSE)
 
-*Disponível em outros idiomas:* [English](README.md)
 
----
+[English](README.md) · [Instalação](#instalação) · [Diagnóstico](docs/troubleshooting.md) · [Contribuição](#contribuição) · [Histórico](CHANGELOG.md)
 
-Um serviço leve e automatizado para Linux que restaura o funcionamento da iluminação RGB em teclados gamer genéricos que utilizam o LED de **Scroll Lock** como gatilho de firmware, especialmente em sistemas **GNOME no Wayland**.
+Serviço leve para Linux destinado a teclados cujo firmware liga ou desliga a iluminação RGB através do LED físico de Scroll Lock. Comecei este projeto para resolver o problema no meu próprio ambiente GNOME/Wayland. O daemon utiliza Python, evdev, sysfs e systemd em vez de um driver RGB proprietário.
 
-Desenvolvido para distribuições Linux modernas (como Ubuntu 26.04+ onde o GNOME removeu o suporte a sessões Xorg), nas quais o compositor gráfico não sincroniza o estado do LED de Scroll Lock com o hardware físico do teclado.
+## O problema
 
----
+Alguns teclados gamer genéricos utilizam o LED padrão de Scroll Lock como gatilho da iluminação. Em ambientes GNOME/Wayland afetados, a tecla pode não atualizar corretamente esse LED, e mudanças de Caps Lock ou Num Lock podem apagá-lo. O projeto atua nesse comportamento específico do firmware; não é um controlador RGB universal.
 
-## 💡 O Problema
+## Como funciona
 
-Muitos teclados gamer de baixo custo (frequentemente vendidos como "semi-mecânicos RGB") não acompanham drivers proprietários para Linux. Em vez disso, o firmware interno do teclado acende o RGB sempre que o sistema operacional ativa o LED padrão de **Scroll Lock**.
-
-Esse comportamento funciona perfeitamente no Windows e no modo texto puro do Linux (TTY):
-
-* No **GNOME com Wayland**, o compositor gráfico intercepta a tecla, mas não repassa a atualização de estado do LED para o teclado USB físico.
-* A partir do GNOME 49 (Ubuntu 25.10+ / 26.04 LTS), as sessões Xorg foram totalmente removidas, tornando impossível contornar o problema mudando de servidor gráfico.
-* Ao pressionar a tecla Scroll Lock, nada acontece e o teclado permanece apagado.
-
----
-
-## ⚡ A Solução
-
-Este projeto fornece um daemon nativo em Python e um serviço `systemd` que interage diretamente com o subsistema de entrada do kernel Linux:
-
-```text
-[ Teclado Físico ]
-        │
-        │  Pressiona tecla Scroll Lock
-        ▼
-[ /dev/input/eventX ]
-        │
-        │  Loop de eventos nativo do kernel (python3-evdev)
-        ▼
-[ scrolllock-rgb.py ] ──► Inverte o estado interno (0 <-> 1)
-        │
-        │  Escrita direta no sysfs
-        ▼
-[ /sys/class/leds/*scrolllock*/brightness ]
-        │
-        │  Gatilho de hardware
-        ▼
-[ Firmware do Teclado ] ──► Iluminação RGB LIGA / DESLIGA ✨
+```mermaid
+flowchart TD
+    K["Teclado"] --> E["Eventos de entrada evdev"]
+    E --> D["Daemon Python"]
+    D --> L["Brilho do LED Scroll Lock no sysfs"]
+    L --> F["Firmware do teclado / RGB"]
+    S["systemd"] --> D
 ```
 
-### Principais Recursos (v2.0)
-- **Detecção Dinâmica:** Encontra o teclado e o nó do LED no sysfs (`/sys/class/leds/`) automaticamente, sem caminhos fixos (funciona mesmo se a numeração dos dispositivos mudar no boot).
-- **Filtro Inteligente de Dispositivos:** Identifica o teclado real testando suporte às teclas `Scroll Lock` e `A`, descartando nós secundários (como "Consumer Control" e "System Control").
-- **Recuperação de Hotplug (Reconexão USB):** Trata a desconexão ou troca de porta USB em tempo de execução sem travar o daemon ou sobrecarregar o systemd.
-- **Recuperação de Conflito com Caps Lock / Num Lock:** O GNOME atualiza todos os LEDs ao apertar Caps ou Num Lock, o que acidentalmente desligava o Scroll Lock. O daemon detecta essa atualização do compositor e restaura o estado correto do RGB imediatamente.
-- **Instalador Multi-Distribuição:** Instalação em um único comando com suporte automático para Ubuntu, Debian, Fedora, Arch Linux, openSUSE e Alpine.
+- Detecta teclados que anunciam suporte a Scroll Lock e A e localiza dinamicamente os nós de brilho do LED.
+- Alterna o LED ao pressionar Scroll Lock, ignorando repetições e solturas.
+- Restaura o estado desejado após eventos de LED, com espera de 50 ms.
+- Repete a detecção após desconexão identificada ou ausência de dispositivo, em intervalos de dois segundos.
+- Executa sob systemd, configurado para reiniciar o daemon.
 
----
+A implementação atual escolhe o primeiro teclado elegível e o primeiro LED encontrado de forma independente. Em máquinas com vários dispositivos, eles podem não pertencer ao mesmo teclado. O LED é inicializado como apagado a cada conexão do listener; o estado anterior não é persistido. A recuperação e o encerramento ainda precisam de validação mais abrangente.
 
-## 📦 Compatibilidade e Requisitos
+## Compatibilidade e requisitos
 
-* **Sistema Operacional:** Qualquer distribuição Linux com `systemd`
-* **Ambiente Gráfico:** GNOME (Wayland ou X11), KDE Plasma, Hyprland, Sway, etc.
-* **Dependências:** Python 3 e `python3-evdev` (instaladas automaticamente pelo script de instalação)
-* **Hardware:** Teclados cujo RGB dependa do LED de Scroll Lock
+| Componente | Requisito |
+|---|---|
+| Sistema | Linux com systemd em funcionamento |
+| Runtime | Python 3 do sistema (alvo mínimo existente: 3.8) e evdev |
+| Hardware | Teclado cuja iluminação responde ao LED físico de Scroll Lock |
+| Acesso | sudo para instalação, gerenciamento do serviço e escrita privilegiada |
+| Desenvolvimento | Git, Bash e Python com evdev |
 
-| Distribuição | Gerenciador | Suporte |
-| :--- | :--- | :--- |
-| **Ubuntu / Debian / Linux Mint** | `apt` | ✅ Suportado |
-| **Fedora / RHEL** | `dnf` | ✅ Suportado |
-| **Arch Linux / Manjaro** | `pacman` | ✅ Suportado |
-| **openSUSE (Tumbleweed / Leap)** | `zypper` | ✅ Suportado |
-| **Alpine Linux** | `apk` | ✅ Suportado |
+O instalador possui rotinas para os gerenciadores abaixo. Isso **não** representa compatibilidade comprovada em hardware.
 
----
+| Família | Gerenciador | Dependência |
+|---|---|---|
+| Debian / Ubuntu / Linux Mint | apt | python3-evdev |
+| Fedora / RHEL | dnf | python3-evdev |
+| Arch / Manjaro | pacman | python-evdev |
+| openSUSE | zypper | python3-evdev |
+| Sistemas com apk | apk | py3-evdev |
 
-## 🚀 Instalação Rápida Automatizada
+A rotina apk não estabelece suporte ao Alpine/OpenRC: o projeto fornece uma unidade systemd, não um serviço OpenRC. A disponibilidade dos pacotes pode variar. Outros compositores e distribuições podem funcionar, mas não há garantia. O alvo original foi Ubuntu com GNOME/Wayland; consulte o [guia técnico histórico](docs/RGB_ScrollLock_Ubuntu_EN.pdf).
 
-Clone o repositório e execute o instalador:
+## Instalação
 
-```bash
-# 1. Clone o repositório
+Revise [install.sh](install.sh), [a unidade de serviço](scrolllock-rgb.service) e o [guia de diagnóstico](docs/troubleshooting.md). Use um equipamento não crítico e mantenha uma forma alternativa de entrada.
+
+```sh
 git clone https://github.com/kayo-willian/scrolllock-rgb-fix.git
 cd scrolllock-rgb-fix
-
-# 2. Execute o instalador (requer sudo)
 sudo ./install.sh
 ```
 
-O instalador irá:
-1. Detectar o gerenciador de pacotes e instalar `python3-evdev` caso necessário;
-2. Copiar o script para `/usr/local/bin/scrolllock-rgb.py`;
-3. Configurar a unidade no systemd (`scrolllock-rgb.service`);
-4. Iniciar o serviço imediatamente e habilitá-lo para iniciar junto ao boot do sistema.
+O instalador verifica o evdev, tenta instalá-lo se necessário, copia o daemon e a unidade, recarrega o systemd, habilita e inicia o serviço imediatamente. Python e Git devem estar instalados. O script pode alterar pacotes do sistema e sobrescrever os dois arquivos de destino; confira os arquivos existentes antes de executá-lo.
 
-Pressione a tecla **Scroll Lock** para acender ou apagar o LED RGB do seu teclado!
+| Caminho instalado | Finalidade |
+|---|---|
+| `/usr/local/bin/scrolllock-rgb.py` | Daemon Python |
+| `/etc/systemd/system/scrolllock-rgb.service` | Serviço do sistema |
 
----
+**Privacidade e privilégios:** o serviço fornecido executa como root e lê eventos de teclado através de evdev. O código atual registra o dispositivo monitorado, alternâncias de Scroll Lock e erros, não caracteres digitados arbitrariamente. O daemon não precisa de rede para seu funcionamento normal; o instalador pode acessar repositórios de pacotes. A execução como root não é garantia de segurança: revise o código antes da instalação.
 
-## 🔍 Verificação e Logs
+## Uso e diagnóstico
 
-Verifique se o serviço está ativo e rodando:
+Pressione Scroll Lock para alternar a iluminação. Consulte o estado e os logs:
 
-```bash
+```sh
 systemctl status scrolllock-rgb.service --no-pager
-```
-
-Acompanhe os logs em tempo real:
-
-```bash
+journalctl -u scrolllock-rgb.service -n 50 --no-pager
 journalctl -u scrolllock-rgb.service -f
 ```
 
----
+Um serviço ativo ainda pode estar aguardando um dispositivo. Confira o teclado e o LED identificados nos logs e siga o [guia de diagnóstico](docs/troubleshooting.md) para testar um LED específico. Não escreva em todos os LEDs encontrados se houver vários teclados.
 
-## 🛠️ Desinstalação
+Para parar temporariamente ou desabilitar a inicialização automática:
 
-Para remover completamente o serviço e os arquivos instalados:
+```sh
+sudo systemctl stop scrolllock-rgb.service
+sudo systemctl disable --now scrolllock-rgb.service
+```
 
-```bash
+Para habilitar novamente:
+
+```sh
+sudo systemctl enable --now scrolllock-rgb.service
+```
+
+## Atualização e remoção
+
+Não há comando dedicado de atualização. Consulte o [histórico](CHANGELOG.md), pare o serviço, atualize o clone e execute o instalador novamente apenas se aceitar a substituição dos arquivos:
+
+```sh
+sudo systemctl stop scrolllock-rgb.service
+git pull --ff-only origin main
+sudo ./install.sh
+systemctl status scrolllock-rgb.service --no-pager
+```
+
+Para desinstalar a partir do clone:
+
+```sh
 sudo ./uninstall.sh
+systemctl is-active scrolllock-rgb.service
+test ! -e /usr/local/bin/scrolllock-rgb.py
+test ! -e /etc/systemd/system/scrolllock-rgb.service
 ```
 
----
+O desinstalador tenta parar e desabilitar a unidade, remove os dois caminhos fixos e recarrega o systemd. Atualmente ignora erros de parada/desabilitação; verifique o resultado de forma independente. Não remove evdev, o clone ou o histórico do journal. Unidades inativas ou ausentes podem retornar código diferente de zero. Investigue processos ou arquivos restantes sem remover arquivos de outros serviços.
 
-## 🧪 Testes e Desenvolvimento
+## Testes e desenvolvimento
 
-Execute a suíte de testes automatizados:
+Instale evdev pelo gerenciador de sua distribuição. No Debian/Ubuntu, por exemplo:
 
-```bash
-# Testes estáticos de sintaxe e presença de arquivos
-./tests/test_syntax.sh
-
-# Testes unitários com mocks de hardware
-python3 ./tests/test_daemon.py
+```sh
+sudo apt install -y python3-evdev
 ```
 
-Para guia passo a passo de diagnóstico de hardware, consulte [docs/troubleshooting.md](docs/troubleshooting.md).
+Execute os testes existentes como usuário comum:
 
-Para entender a linha de raciocínio e os comandos de terminal utilizados para criar esta solução, veja o guia técnico em PDF [docs/RGB_ScrollLock_Ubuntu_EN.pdf](docs/RGB_ScrollLock_Ubuntu_EN.pdf).
+```sh
+bash tests/test_syntax.sh
+python3 tests/test_daemon.py
+```
 
----
+Os testes verificam sintaxe, arquivos esperados e simulações de detecção, escrita de LED e eventos. Não comprovam compatibilidade física nem instalação segura em ambiente real. Não exigem teclado físico, root ou systemd em execução. Não execute o daemon contra dispositivos reais apenas para rodar testes unitários.
 
-## 📄 Licença
+## Contribuição
 
-Este projeto é um software de código aberto licenciado sob a [Licença MIT](LICENSE).
+São bem-vindos relatos de compatibilidade, testes de regressão, melhorias na documentação, correções de detecção de dispositivos e propostas para melhorar a instalação ou o ciclo de vida do serviço.
+
+1. [Faça um fork](https://github.com/kayo-willian/scrolllock-rgb-fix/fork).
+2. Leia o [guia de contribuição](CONTRIBUTING.md), crie uma branch específica e execute os testes offline.
+3. Realize a mudança, acrescente testes pertinentes e documente os resultados reais.
+4. Abra um Pull Request para a branch `main`.
+
+| Recurso | Finalidade |
+|---|---|
+| [Guia de contribuição](CONTRIBUTING.md) | Fluxo, segurança e testes |
+| [Código de conduta](CODE_OF_CONDUCT.md) | Participação respeitosa |
+| [Política de segurança](SECURITY.md) | Comunicação privada responsável |
+| [Issues](https://github.com/kayo-willian/scrolllock-rgb-fix/issues) | Erros, compatibilidade e propostas |
+| [Pull Requests](https://github.com/kayo-willian/scrolllock-rgb-fix/pulls) | Alterações propostas e revisões |
+| [Histórico](CHANGELOG.md) | Histórico de desenvolvimento |
+
+As issues criadas pelo projeto e seus modelos são bilíngues; participantes podem escrever em português brasileiro ou inglês. Código, commits e PRs utilizam inglês. Este README em português acompanha a versão original em inglês. Não há prazo garantido de resposta ou lançamento. Forks independentes permanecem livres sob MIT.
+
+## Licença
+
+[Licença MIT](LICENSE).
