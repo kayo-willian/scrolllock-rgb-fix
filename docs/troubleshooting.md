@@ -1,106 +1,62 @@
 # Troubleshooting Guide
 
-This guide helps diagnose and resolve common issues with the Scroll Lock RGB Fix service.
+Use a noncritical keyboard with another input method available. The shipped service runs as root. Do not capture or share arbitrary keyboard events.
 
----
+## 1. Check status and logs
 
-## 1. Check Service Status
-
-Check whether the service is loaded, enabled, and currently active:
-
-```bash
+```sh
 systemctl status scrolllock-rgb.service --no-pager
-```
-
-Expected output should show `Active: active (running)`.
-
-If the service is in a failed state, inspect the logs as shown below.
-
----
-
-## 2. Inspect Real-Time Service Logs
-
-View the systemd journal logs for the service:
-
-```bash
-# Follow logs in real time
-journalctl -u scrolllock-rgb.service -f
-
-# Or view the last 50 log entries
 journalctl -u scrolllock-rgb.service -n 50 --no-pager
 ```
 
-Look for lines indicating:
-- `Monitoring keyboard: <Keyboard Name> (/dev/input/eventX)`
-- `Target LED node: /sys/class/leds/.../brightness`
-- `Scroll Lock pressed. Toggling RGB state to: 1`
+An active service may be waiting for a device. Look for the monitored keyboard name/path, target LED node, Scroll Lock toggle messages and errors. Check whether the reported keyboard and LED correspond to the intended device.
 
----
+## 2. Verify the firmware response
 
-## 3. Verify Hardware Compatibility (Manual LED Test)
+Stop the service before manually writing LED state:
 
-Before troubleshooting software, verify that your keyboard firmware actually uses the physical Scroll Lock LED as its RGB controller trigger.
-
-### Step 3.1: Locate the LED sysfs node
-```bash
-ls /sys/class/leds/ | grep -i scroll
-```
-You should see an entry like `input3::scrolllock` or similar.
-
-### Step 3.2: Test lighting manually
-Turn the LED (and keyboard RGB) ON:
-```bash
-echo 1 | sudo tee /sys/class/leds/*scrolllock*/brightness
+```sh
+sudo systemctl stop scrolllock-rgb.service
+ls -l /sys/class/leds/*scrolllock*/brightness
 ```
 
-Turn the LED (and keyboard RGB) OFF:
-```bash
-echo 0 | sudo tee /sys/class/leds/*scrolllock*/brightness
+Identify **one** brightness node that belongs to your noncritical test keyboard. Do not use a wildcard with tee: that could write to several devices. The following example uses a fictional path; replace it only after verifying the correct device through its sysfs link. If you cannot identify it confidently, stop here.
+
+```sh
+LED=/sys/class/leds/input3::scrolllock/brightness
+cat "$LED"
 ```
 
-* **If the keyboard RGB turns on and off:** Your keyboard is 100% compatible with this fix.
-* **If the LED changes state (or nothing happens) and the RGB does not turn on:** Your keyboard might use a proprietary USB HID protocol (such as OpenRGB-supported controllers) rather than the standard Scroll Lock LED trick.
+Record the original value. If the node is correct and writable, test it:
 
----
-
-## 4. Keyboard Not Detected
-
-If the logs say:
-```text
-[scrolllock-rgb] keyboard not found. Retrying in 2.0s...
+```sh
+printf '1\n' | sudo tee "$LED"
+printf '0\n' | sudo tee "$LED"
 ```
 
-Check `/proc/bus/input/devices` to see all connected input devices:
+Restore the recorded value if necessary. An RGB change demonstrates the firmware trigger on that device, not full daemon compatibility. No change may indicate a different firmware protocol or a wrong node. To resume normal operation, run `sudo systemctl start scrolllock-rgb.service` if appropriate.
 
-```bash
-cat /proc/bus/input/devices | grep -E 'Name|Handlers'
+## 3. Keyboard not detected or wrong keyboard selected
+
+```sh
+grep -E 'Name|Handlers' /proc/bus/input/devices
+ls -l /sys/class/leds/*scrolllock*
 ```
 
-The daemon looks for a device that supports both `KEY_SCROLLLOCK` and `KEY_A` (to filter out secondary devices like "Consumer Control" or "System Control"). If your keyboard presents itself under an unusual descriptor, you can inspect device capabilities using:
+The daemon currently selects the first input device supporting KEY_SCROLLLOCK and KEY_A and the first matching LED separately. A second keyboard or composite HID device may cause incorrect pairing. Do not hardcode event numbers or write to an unverified LED to work around this. Report the device arrangement, sanitized names and paths, and observed behavior.
 
-```bash
-python3 -c "
-import evdev
-for p in evdev.list_devices():
-    d = evdev.InputDevice(p)
-    print(d.path, d.name)
-"
-```
+## 4. Caps Lock / Num Lock interaction
 
----
+The daemon reasserts its desired Scroll Lock state after an EV_LED event with a 50 ms settling delay. Some hardware/compositor combinations may behave differently. A brief flicker can occur. Report persistent resets or unexpected changes with the relevant environment and reproduction steps.
 
-## 5. Interaction with Caps Lock / Num Lock
+## 5. USB reconnection and shutdown
 
-On GNOME (Wayland), whenever Caps Lock or Num Lock is pressed, the compositor broadcasts an LED update event (`EV_LED`) to the keyboard. On generic keyboards, this broadcast can unintentionally reset the Scroll Lock LED to 0 (turning off the RGB).
+When the read loop reports a connection error, the daemon closes the selected input device and retries discovery at two-second intervals. A missing keyboard or LED also causes retrying. Each new listener initializes the state to off. The existing retry and shutdown logic is not a guarantee of prompt recovery or termination in all cases.
 
-The daemon automatically intercepts `EV_LED` events and restores the desired Scroll Lock state after a 50ms settling delay. If you notice a brief flicker when pressing Caps Lock, this is the expected behavior of GNOME re-synchronizing the LEDs.
+Use `sudo systemctl stop scrolllock-rgb.service` to stop, or `sudo systemctl disable --now scrolllock-rgb.service` to disable startup. Check actual unit status. If stopping fails, investigate systemd and the daemon logs before continuing with removal.
 
----
+## 6. Installation or removal problems
 
-## 6. USB Reconnection (Hotplug)
+A working systemd manager is required; package-manager detection is not evidence of full distribution support. Check Python and evdev availability, existing destination files, package errors and systemd diagnostics. The installer may replace its fixed daemon and unit paths; the uninstaller ignores stop/disable errors. Do not remove unrelated files or force package changes to bypass a failure.
 
-The daemon v2.0 includes automatic hotplug recovery. If you unplug the keyboard or move it to a different USB port:
-1. The daemon detects that the file descriptor closed.
-2. It logs `Keyboard connection lost`.
-3. It begins scanning every 2 seconds until the keyboard and LED are re-detected.
-4. Once plugged back in, it resumes listening automatically without requiring `systemctl restart`.
+See [README](../README.md) for normal installation, update and removal steps. Report ordinary issues using the repository templates; use [SECURITY.md](../SECURITY.md) for sensitive findings. Redact private logs, typed text, raw event data and identifying details.
