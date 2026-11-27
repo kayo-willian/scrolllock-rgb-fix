@@ -57,7 +57,7 @@ Substitua o nome de usuário, a branch e o caminho do arquivo dos exemplos.
 - Revise operações com root no instalador, desinstalador e unidade. Evite alterações de pacotes não relacionadas, sobrescritas inseguras, mudanças amplas de permissões ou falhas silenciosas. Preserve os dados existentes e as alterações do administrador.
 - Diferencie uma rotina de gerenciador de pacotes do suporte comprovado a uma distribuição. Não afirme suporte ao OpenRC apenas porque apk é reconhecido.
 
-Testes reais são opcionais. Use um teclado não crítico e um método de entrada alternativo, revise o [guia de diagnóstico](../docs/troubleshooting.md) e saiba como parar o serviço. Verifique alternâncias de Scroll Lock, interação com Caps/Num Lock, reconexão, parada/reinicialização e logs. Teste múltiplos dispositivos somente com controle explícito do alvo. Registre a revisão exata, o ambiente e o resultado observado. Não deduza resultados em hardware a partir de testes simulados.
+Testes reais são opcionais. Use um teclado não crítico e um método de entrada alternativo, revise o [guia de diagnóstico](docs/troubleshooting.md) e saiba como parar o serviço. Verifique alternâncias de Scroll Lock, interação com Caps/Num Lock, reconexão, parada/reinicialização e logs. Teste múltiplos dispositivos somente com controle explícito do alvo. Registre a revisão exata, o ambiente e o resultado observado. Não deduza resultados em hardware a partir de testes simulados.
 
 ## Issues e revisão
 
@@ -65,7 +65,7 @@ Pesquise issues e pull requests existentes antes de abrir outro. Use o modelo de
 
 Não publique eventos brutos de teclado, texto digitado, logs privados, números de série, caminhos pessoais ou credenciais. Relate suspeitas de vulnerabilidades por [SEGURANCA.md](SEGURANCA.md).
 
-Mantenha código, comentários, commits e descrições de PR em inglês. Mantenha os documentos comunitários em inglês alinhados às traduções em português brasileiro dentro de `pt-BR/`. Atualize ambas as versões para mudanças significativas de uso ou política. Atualize a seção Unreleased do [CHANGELOG.md](../CHANGELOG.md) para mudanças relevantes. Explique compatibilidade, validação efetivamente realizada e casos não testados. Para alterações exclusivamente documentais, confira links, comandos e precisão.
+Mantenha código, comentários, commits e descrições de PR em inglês. Mantenha os documentos comunitários em inglês alinhados às traduções em português brasileiro dentro de `pt-BR/`. Atualize ambas as versões para mudanças significativas de uso ou política. Atualize a seção Unreleased do [CHANGELOG.md](CHANGELOG.md) para mudanças relevantes. Explique compatibilidade, validação efetivamente realizada e casos não testados. Para alterações exclusivamente documentais, confira links, comandos e precisão.
 
 Declare assistência relevante de IA, verifique as alterações, credite trabalhos externos e envie somente material que tenha direito de contribuir sob MIT. Não invente autoria, resultados de testes ou plataformas suportadas.
 

@@ -1,5 +1,7 @@
 # Troubleshooting Guide
 
+[Português (Brasil)](../pt-BR/docs/troubleshooting.md) · [Home](../README.md)
+
 Use a noncritical keyboard with another input method available. The shipped service runs as root. Do not capture or share arbitrary keyboard events.
 
 ## 1. Check status and logs

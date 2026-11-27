@@ -1,5 +1,7 @@
 # Changelog
 
+[Português (Brasil)](pt-BR/CHANGELOG.md) · [Home](README.md)
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -12,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Code of conduct, security reporting policy, bilingual issue templates and an English pull request template.
+- Brazilian Portuguese translations of the troubleshooting guide, historical technical guide and changelog.
 
 ### Changed
 - Update contributor onboarding, English and Portuguese READMEs and troubleshooting instructions.

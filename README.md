@@ -3,9 +3,8 @@
 [![Linux](https://img.shields.io/badge/Linux-systemd-555?logo=linux&logoColor=white)](https://kernel.org)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![systemd](https://img.shields.io/badge/systemd-integrated-orange?logo=linux)](https://systemd.io)
-[![Wayland](https://img.shields.io/badge/Wayland-GNOME%2049%2B-informational)](https://wayland.freedesktop.org)
+[![Wayland](https://img.shields.io/badge/Wayland-GNOME-informational)](https://wayland.freedesktop.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 
 [Português (Brasil)](pt-BR/README.md) · [Installation](#installation) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](#contributing) · [Changelog](CHANGELOG.md)
 
@@ -38,7 +37,7 @@ The images below illustrate the keyboard that motivated this project and the two
 
 The lighting symbol on the Scroll Lock key indicates its role on this particular keyboard. Its firmware uses the Scroll Lock LED state to switch the backlight on or off; the daemon does not directly control the individual RGB LEDs.
 
-**Image note:** The displayed images are AI-enhanced versions of my original photographs. Some details, including key legends, may differ from the actual hardware. The linked originals are the reference for physical appearance. These images illustrate the problem and intended behavior; they are not evidence of a test of any specific daemon revision.
+The original photographs linked above are the reference for the hardware. See [image credits](#credits) for how the displayed versions were prepared.
 
 ## How it works
 
@@ -79,7 +78,7 @@ The installer has package-manager branches for the following systems. This is **
 | openSUSE | zypper | python3-evdev |
 | apk-based systems | apk | py3-evdev |
 
-The apk branch does not establish Alpine/OpenRC support: the project ships a systemd unit, not an OpenRC service. Package availability varies. Other compositors and distributions may work, but are not guaranteed. The original development target was GNOME/Wayland on Ubuntu; see the [historical technical guide](docs/RGB_ScrollLock_Ubuntu_EN.pdf).
+The apk branch does not establish Alpine/OpenRC support: the project ships a systemd unit, not an OpenRC service. Package availability varies. Other compositors and distributions may work, but are not guaranteed. The original development target was GNOME/Wayland on Ubuntu; see the [historical technical guide](docs/RGB_ScrollLock_Ubuntu_EN.pdf) ([Português (Brasil)](pt-BR/docs/registro-tecnico.md)).
 
 ## Installation
 
@@ -182,7 +181,11 @@ Contributions are welcome, including hardware compatibility reports, regression 
 | [Pull requests](https://github.com/kayo-willian/scrolllock-rgb-fix/pulls) | Proposed changes and reviews |
 | [Changelog](CHANGELOG.md) | Development history |
 
-Project-created issues and issue templates are bilingual; participants may write in English or Brazilian Portuguese. Source code, commits and PRs use English. The README, contribution guide, code of conduct and security policy are available in English and Brazilian Portuguese in [pt-BR/](pt-BR/README.md). Internal technical documentation remains in English. Contributions are reviewed when time permits; no release or response deadline is promised. Independent MIT-licensed forks remain free to evolve.
+Project-created issues and issue templates are bilingual; participants may write in English or Brazilian Portuguese. Source code, commits and PRs use English. The README, contribution guide, code of conduct and security policy are available in English and Brazilian Portuguese in [pt-BR/](pt-BR/README.md). The troubleshooting guide, historical technical guide and changelog also have Brazilian Portuguese translations. Contributions are reviewed when time permits; no release or response deadline is promised. Independent MIT-licensed forks remain free to evolve.
+
+## Credits
+
+The displayed images are AI-enhanced versions of my original photographs. Some details, including key legends, may differ from the actual hardware. The linked originals are the reference for physical appearance. These images illustrate the problem and intended behavior; they are not evidence of a test of any specific daemon revision.
 
 ## License
 
