@@ -53,7 +53,7 @@ O daemon reaplica o estado desejado de Scroll Lock após um evento EV_LED, com u
 
 ## 5. Reconexão USB e encerramento
 
-Quando o laço de leitura encontra um erro de conexão, o daemon fecha o dispositivo selecionado e repete a descoberta a cada dois segundos. Também há novas tentativas quando falta o teclado ou o LED. Cada novo processo de escuta inicializa o LED como apagado. A lógica de reconexão e encerramento não garante uma resposta imediata em todas as situações.
+Quando o laço de leitura encontra um erro de conexão, o daemon fecha o dispositivo selecionado e repete a descoberta a cada dois segundos. Também há novas tentativas quando falta o teclado ou o LED. Cada novo listener tenta inicializar o LED como apagado. A lógica de reconexão e encerramento não garante uma resposta imediata em todas as situações.
 
 Use `sudo systemctl stop scrolllock-rgb.service` para parar ou `sudo systemctl disable --now scrolllock-rgb.service` para parar e desabilitar a inicialização automática. Confira o estado da unidade. Se a parada falhar, investigue o systemd e os logs do daemon antes da remoção.
 

@@ -4,7 +4,8 @@
 
 Este arquivo documenta as alterações relevantes do projeto.
 
-O formato segue o [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e o projeto adota o [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
+O formato segue o [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+e o projeto adota o [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
@@ -16,10 +17,11 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e o 
 - Traduções brasileiras do guia de diagnóstico, do registro técnico histórico e deste histórico de alterações.
 
 ### Alterado
+- Alinhamento de todos os pares Markdown em inglês e português brasileiro, tradução dos nomes de arquivos, inclusão de referências de arquitetura e compatibilidade de hardware e preservação do PDF e das mídias originais. Alteração apenas documental.
 - Atualização das orientações para colaboradores, dos READMEs em inglês e português e das instruções de diagnóstico.
-- Esclarecimentos sobre o requisito real de systemd, a seleção independente de dispositivo e LED, a execução como root, a instalação e remoção e os limites da validação física. O comportamento do daemon, do instalador e do serviço foi preservado.
+- Esclarecimentos sobre o requisito real de systemd, a seleção independente anterior de dispositivo e LED e sua correção posterior de associação, a execução como root, a instalação e remoção e os limites da validação física. O comportamento do daemon, do instalador e do serviço foi preservado.
 
-As versões abaixo são entradas históricas. Esta atualização documental preserva os números das versões e não cria um lançamento.
+As versões abaixo são entradas históricas. Esta atualização documental preserva os números das versões e não cria um lançamento. As afirmações antigas descrevem as mudanças históricas, não suporte verificado independentemente nem garantias de remoção completa.
 
 ---
 

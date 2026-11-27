@@ -1,10 +1,12 @@
 # Correção de RGB com Scroll Lock
 
-[English (PDF original)](../../docs/RGB_ScrollLock_Ubuntu_EN.pdf) · [Início](../README.md)
+[English](../../docs/technical-record.md) · [PDF original](../../docs/RGB_ScrollLock_Ubuntu_EN.pdf) · [Início](../README.md) · [Índice](README.md)
 
 **Ubuntu 26.04 com GNOME (Wayland) — teclado gamer USB genérico**
 
-Este registro histórico descreve como o autor recuperou a iluminação RGB do seu teclado no Ubuntu 26.04. Ele guardou os passos para entender ou reaplicar a solução após uma atualização de sistema ou troca de teclado. Os caminhos e exemplos de código pertencem ao protótipo de julho de 2026. Para a versão do repositório, consulte a [instalação](../README.md#instalação) e o [diagnóstico](troubleshooting.md).
+Este registro histórico descreve como o autor recuperou a iluminação RGB do seu teclado no Ubuntu 26.04. Ele guardou os passos para entender ou reaplicar a solução após uma atualização de sistema ou troca de teclado. Os caminhos e exemplos de código pertencem ao protótipo de julho de 2026. Para a versão do repositório, consulte a [instalação](../README.md#instalação) e o [diagnóstico](diagnostico.md).
+
+Este texto preserva o relato do protótipo e não descreve necessariamente o daemon atual. Os exemplos históricos não são instruções de instalação; use o guia atual e não execute comandos com caminhos de dispositivos antigos.
 
 ## O problema
 

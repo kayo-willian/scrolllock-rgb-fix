@@ -2,8 +2,6 @@
 
 [English](../CONTRIBUTING.md) · [Documentação em português](README.md)
 
-> Tradução para português brasileiro. Em caso de divergência, consulte a versão original em inglês.
-
 Contribuições são bem-vindas. Este é um utilitário Linux independente para teclados cujo firmware responde ao LED físico de Scroll Lock. Você pode fazer um fork, melhorar a documentação, relatar resultados em hardware ou enviar uma correção específica. Estas diretrizes se aplicam às contribuições ao projeto original, não aos forks independentes sob a [licença MIT](../LICENSE).
 
 ## Escopo
@@ -57,7 +55,7 @@ Substitua o nome de usuário, a branch e o caminho do arquivo dos exemplos.
 - Revise operações com root no instalador, desinstalador e unidade. Evite alterações de pacotes não relacionadas, sobrescritas inseguras, mudanças amplas de permissões ou falhas silenciosas. Preserve os dados existentes e as alterações do administrador.
 - Diferencie uma rotina de gerenciador de pacotes do suporte comprovado a uma distribuição. Não afirme suporte ao OpenRC apenas porque apk é reconhecido.
 
-Testes reais são opcionais. Use um teclado não crítico e um método de entrada alternativo, revise o [guia de diagnóstico](docs/troubleshooting.md) e saiba como parar o serviço. Verifique alternâncias de Scroll Lock, interação com Caps/Num Lock, reconexão, parada/reinicialização e logs. Teste múltiplos dispositivos somente com controle explícito do alvo. Registre a revisão exata, o ambiente e o resultado observado. Não deduza resultados em hardware a partir de testes simulados.
+Testes reais são opcionais. Use um teclado não crítico e um método de entrada alternativo, revise o [guia de diagnóstico](docs/diagnostico.md) e saiba como parar o serviço. Verifique alternâncias de Scroll Lock, interação com Caps/Num Lock, reconexão, parada/reinicialização e logs. Teste múltiplos dispositivos somente com controle explícito do alvo. Registre a revisão exata, o ambiente e o resultado observado. Não deduza resultados em hardware a partir de testes simulados.
 
 ## Issues e revisão
 
@@ -65,8 +63,8 @@ Pesquise issues e pull requests existentes antes de abrir outro. Use o modelo de
 
 Não publique eventos brutos de teclado, texto digitado, logs privados, números de série, caminhos pessoais ou credenciais. Relate suspeitas de vulnerabilidades por [SEGURANCA.md](SEGURANCA.md).
 
-Mantenha código, comentários, commits e descrições de PR em inglês. Mantenha os documentos comunitários em inglês alinhados às traduções em português brasileiro dentro de `pt-BR/`. Atualize ambas as versões para mudanças significativas de uso ou política. Atualize a seção Unreleased do [CHANGELOG.md](CHANGELOG.md) para mudanças relevantes. Explique compatibilidade, validação efetivamente realizada e casos não testados. Para alterações exclusivamente documentais, confira links, comandos e precisão.
+Mantenha código, comentários, commits e descrições de PR em inglês. Mantenha os documentos comunitários em inglês alinhados às traduções em português brasileiro dentro de `pt-BR/`. Atualize ambas as versões na mesma alteração, com contagens de linhas idênticas, seções, parágrafos, tabelas, comandos, evidências correspondentes e links recíprocos. Use nomes em português para documentos traduzidos, exceto o convencional README.md; mídias compartilhadas e caminhos de código permanecem inalterados. Atualize a seção Unreleased do [HISTORICO.md](HISTORICO.md) para mudanças relevantes. Explique compatibilidade, validação efetivamente realizada e casos não testados. Para alterações exclusivamente documentais, confira links, comandos e precisão.
 
 Declare assistência relevante de IA, verifique as alterações, credite trabalhos externos e envie somente material que tenha direito de contribuir sob MIT. Não invente autoria, resultados de testes ou plataformas suportadas.
 
-PRs são revisados antes do merge. Não há prazo prometido de resposta ou lançamento. Siga o [código de conduta](CODIGO_DE_CONDUTA.md).
+PRs são revisados antes do merge. Não há prazo prometido de resposta ou lançamento. Siga o [código de conduta](CODIGO-DE-CONDUTA.md).

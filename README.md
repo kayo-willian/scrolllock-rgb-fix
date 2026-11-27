@@ -1,12 +1,21 @@
 # Scroll Lock Keyboard RGB Fix
 
-[![Linux](https://img.shields.io/badge/Linux-systemd-555?logo=linux&logoColor=white)](https://kernel.org)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
-[![systemd](https://img.shields.io/badge/systemd-integrated-orange?logo=linux)](https://systemd.io)
-[![Wayland](https://img.shields.io/badge/Wayland-GNOME-informational)](https://wayland.freedesktop.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<div align="center">
 
-[Português (Brasil)](pt-BR/README.md) · [Installation](#installation) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](#contributing) · [Changelog](CHANGELOG.md)
+[![Leia em português](https://img.shields.io/badge/LEIA%20EM%20PORTUGU%C3%8AS-009C3B?style=for-the-badge)](pt-BR/README.md)
+[![Technical documentation](https://img.shields.io/badge/TECHNICAL%20DOCS-1E293B?style=for-the-badge)](docs/README.md)
+
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://kernel.org)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![systemd](https://img.shields.io/badge/systemd-475569?style=flat-square)](https://systemd.io)
+[![Wayland](https://img.shields.io/badge/Wayland-GNOME-0B3D91?style=flat-square)](https://wayland.freedesktop.org)
+![evdev](https://img.shields.io/badge/evdev-2563EB?style=flat-square)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)
+[![MIT](https://img.shields.io/badge/License-MIT-2563EB?style=flat-square)](LICENSE)
+
+</div>
+
+[Installation](#installation) · [Troubleshooting](docs/troubleshooting.md) · [Contributing](#contributing) · [Changelog](CHANGELOG.md)
 
 A lightweight Linux background service for keyboards whose firmware switches RGB lighting on or off through the physical Scroll Lock LED. I started this project to address the problem on my own GNOME/Wayland setup. The daemon uses Python, evdev, sysfs and systemd rather than a proprietary RGB driver.
 
@@ -56,7 +65,7 @@ flowchart TD
 - Retries discovery after a detected disconnection or when a device is missing, with a two-second interval.
 - Runs under systemd, which is configured to restart the daemon.
 
-The daemon uses the first eligible keyboard with exactly one Scroll Lock LED on the same Linux input device. It skips keyboards with missing or ambiguous LED links, even when another keyboard has a usable LED. The listener initializes the LED to off on each attachment; the previous RGB state is not persisted. Recovery and shutdown behavior still need broader validation.
+The daemon uses the first eligible keyboard with exactly one Scroll Lock LED on the same Linux input device. It skips keyboards with missing or ambiguous LED links, even when another keyboard has a usable LED. The listener attempts to initialize the LED to off on each attachment; the previous RGB state is not persisted. Recovery and shutdown behavior still need broader validation.
 
 ## Compatibility and requirements
 
@@ -68,6 +77,8 @@ The daemon uses the first eligible keyboard with exactly one Scroll Lock LED on 
 | Access | sudo for installation, service management and privileged LED writes |
 | Development | Git, Bash and Python with evdev installed |
 
+For a detailed overview of the implementation, see [architecture](docs/architecture.md). For the evidence and limits of compatibility, see [hardware compatibility](docs/hardware-compatibility.md).
+
 The installer has package-manager branches for the following systems. This is **not** a hardware-tested compatibility matrix.
 
 | Distribution family | Package manager | Dependency |
@@ -78,7 +89,7 @@ The installer has package-manager branches for the following systems. This is **
 | openSUSE | zypper | python3-evdev |
 | apk-based systems | apk | py3-evdev |
 
-The apk branch does not establish Alpine/OpenRC support: the project ships a systemd unit, not an OpenRC service. Package availability varies. Other compositors and distributions may work, but are not guaranteed. The original development target was GNOME/Wayland on Ubuntu; see the [historical technical guide](docs/RGB_ScrollLock_Ubuntu_EN.pdf) ([Português (Brasil)](pt-BR/docs/registro-tecnico.md)).
+The apk branch does not establish Alpine/OpenRC support: the project ships a systemd unit, not an OpenRC service. Package availability varies. Other compositors and distributions may work, but are not guaranteed. The original development target was GNOME/Wayland on Ubuntu; see the [historical technical record](docs/technical-record.md) ([original PDF](docs/RGB_ScrollLock_Ubuntu_EN.pdf)).
 
 ## Installation
 

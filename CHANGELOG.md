@@ -1,6 +1,6 @@
 # Changelog
 
-[Português (Brasil)](pt-BR/CHANGELOG.md) · [Home](README.md)
+[Português (Brasil)](pt-BR/HISTORICO.md) · [Home](README.md)
 
 All notable changes to this project will be documented in this file.
 
@@ -17,10 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Brazilian Portuguese translations of the troubleshooting guide, historical technical guide and changelog.
 
 ### Changed
+- Align all English and Brazilian Portuguese Markdown pairs, localize translated filenames, add architecture and hardware compatibility references, and preserve the original PDF and media. This is documentation only.
 - Update contributor onboarding, English and Portuguese READMEs and troubleshooting instructions.
-- Clarify the actual systemd requirement, independent device/LED selection, root execution, installation and removal behavior, and limits of hardware validation. No daemon, installer or service behavior changed.
+- Clarify the actual systemd requirement, the earlier independent device/LED selection and its subsequent pairing fix, root execution, installation and removal behavior, and limits of hardware validation. No daemon, installer or service behavior changed.
 
-The existing version headings below are historical entries; this documentation update does not create a release or change a version.
+The existing version headings below are historical entries; this documentation update does not create a release or change a version. The older claims describe the historical changes, not independently verified support or complete removal guarantees.
 
 ---
 

@@ -2,8 +2,6 @@
 
 [English](../CODE_OF_CONDUCT.md) · [Documentação em português](README.md)
 
-> Tradução para português brasileiro. Em caso de divergência, consulte a versão original em inglês.
-
 Este projeto recebe colaboradores de diferentes origens e níveis de experiência. Mantenha as discussões respeitosas, acessíveis e focadas no trabalho.
 
 ## Comportamento esperado

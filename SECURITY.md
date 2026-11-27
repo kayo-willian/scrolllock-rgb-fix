@@ -1,6 +1,6 @@
 # Security Policy
 
-[Português (Brasil)](pt-BR/SEGURANCA.md)
+[Português (Brasil)](pt-BR/SEGURANCA.md) · [Home](README.md)
 
 ## Scope
 

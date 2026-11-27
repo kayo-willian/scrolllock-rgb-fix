@@ -1,12 +1,21 @@
 # Correção de RGB do Teclado via Scroll Lock
 
-[![Linux](https://img.shields.io/badge/Linux-systemd-555?logo=linux&logoColor=white)](https://kernel.org)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://python.org)
-[![systemd](https://img.shields.io/badge/systemd-integrado-orange?logo=linux)](https://systemd.io)
-[![Wayland](https://img.shields.io/badge/Wayland-GNOME-informational)](https://wayland.freedesktop.org)
-[![Licença: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-yellow.svg)](../LICENSE)
+<div align="center">
 
-[English](../README.md) · [Instalação](#instalação) · [Diagnóstico](docs/troubleshooting.md) · [Contribuição](#contribuição) · [Histórico](CHANGELOG.md)
+[![Read in English](https://img.shields.io/badge/READ%20IN%20ENGLISH-0B3D91?style=for-the-badge)](../README.md)
+[![Documentação técnica](https://img.shields.io/badge/DOCUMENTA%C3%87%C3%83O%20T%C3%89CNICA-1E293B?style=for-the-badge)](docs/README.md)
+
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://kernel.org)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![systemd](https://img.shields.io/badge/systemd-475569?style=flat-square)](https://systemd.io)
+[![Wayland](https://img.shields.io/badge/Wayland-GNOME-0B3D91?style=flat-square)](https://wayland.freedesktop.org)
+![evdev](https://img.shields.io/badge/evdev-2563EB?style=flat-square)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)
+[![MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-2563EB?style=flat-square)](../LICENSE)
+
+</div>
+
+[Instalação](#instalação) · [Diagnóstico](docs/diagnostico.md) · [Contribuição](#contribuição) · [Histórico](HISTORICO.md)
 
 Serviço leve para Linux destinado a teclados cujo firmware liga ou desliga a iluminação RGB através do LED físico de Scroll Lock. Comecei este projeto para resolver o problema no meu próprio ambiente GNOME/Wayland. O daemon utiliza Python, evdev, sysfs e systemd em vez de um driver RGB proprietário.
 
@@ -56,7 +65,7 @@ flowchart TD
 - Repete a detecção após desconexão identificada ou ausência de dispositivo, em intervalos de dois segundos.
 - Executa sob systemd, configurado para reiniciar o daemon.
 
-O serviço usa o primeiro teclado elegível com exatamente um LED de Scroll Lock no mesmo dispositivo de entrada do Linux. Teclados sem um LED correspondente ou com mais de um são ignorados, mesmo que outro teclado tenha um LED disponível. O LED é inicializado como apagado a cada conexão do listener; o estado anterior não é persistido. A recuperação e o encerramento ainda precisam de validação mais abrangente.
+O serviço usa o primeiro teclado elegível com exatamente um LED de Scroll Lock no mesmo dispositivo de entrada do Linux. Teclados sem um LED correspondente ou com mais de um são ignorados, mesmo que outro teclado tenha um LED disponível. O listener tenta inicializar o LED como apagado a cada conexão; o estado anterior não é persistido. A recuperação e o encerramento ainda precisam de validação mais abrangente.
 
 ## Compatibilidade e requisitos
 
@@ -68,6 +77,8 @@ O serviço usa o primeiro teclado elegível com exatamente um LED de Scroll Lock
 | Acesso | sudo para instalação, gerenciamento do serviço e escrita privilegiada |
 | Desenvolvimento | Git, Bash e Python com evdev |
 
+Para uma visão detalhada da implementação, consulte a [arquitetura](docs/arquitetura.md). Para as evidências e os limites de compatibilidade, consulte [compatibilidade de hardware](docs/compatibilidade-de-hardware.md).
+
 O instalador possui rotinas para os gerenciadores abaixo. Isso **não** representa compatibilidade comprovada em hardware.
 
 | Família | Gerenciador | Dependência |
@@ -78,11 +89,11 @@ O instalador possui rotinas para os gerenciadores abaixo. Isso **não** represen
 | openSUSE | zypper | python3-evdev |
 | Sistemas com apk | apk | py3-evdev |
 
-A rotina apk não estabelece suporte ao Alpine/OpenRC: o projeto fornece uma unidade systemd, não um serviço OpenRC. A disponibilidade dos pacotes pode variar. Outros compositores e distribuições podem funcionar, mas não há garantia. O alvo original foi Ubuntu com GNOME/Wayland; consulte o [registro técnico histórico](docs/registro-tecnico.md) ([PDF original em inglês](../docs/RGB_ScrollLock_Ubuntu_EN.pdf)).
+A rotina apk não estabelece suporte ao Alpine/OpenRC: o projeto fornece uma unidade systemd, não um serviço OpenRC. A disponibilidade dos pacotes pode variar. Outros compositores e distribuições podem funcionar, mas não há garantia. O alvo original foi Ubuntu com GNOME/Wayland; consulte o [registro técnico histórico](docs/registro-tecnico.md) ([PDF original](../docs/RGB_ScrollLock_Ubuntu_EN.pdf)).
 
 ## Instalação
 
-Revise [install.sh](../install.sh), [a unidade de serviço](../scrolllock-rgb.service) e o [guia de diagnóstico](docs/troubleshooting.md). Use um equipamento não crítico e mantenha uma forma alternativa de entrada.
+Revise [install.sh](../install.sh), [a unidade de serviço](../scrolllock-rgb.service) e o [guia de diagnóstico](docs/diagnostico.md). Use um equipamento não crítico e mantenha uma forma alternativa de entrada.
 
 ```sh
 git clone https://github.com/kayo-willian/scrolllock-rgb-fix.git
@@ -109,7 +120,7 @@ journalctl -u scrolllock-rgb.service -n 50 --no-pager
 journalctl -u scrolllock-rgb.service -f
 ```
 
-Um serviço ativo ainda pode estar aguardando um dispositivo. Confira o teclado e o LED identificados nos logs e siga o [guia de diagnóstico](docs/troubleshooting.md) para testar um LED específico. Não escreva em todos os LEDs encontrados se houver vários teclados.
+Um serviço ativo ainda pode estar aguardando um dispositivo. Confira o teclado e o LED identificados nos logs e siga o [guia de diagnóstico](docs/diagnostico.md) para testar um LED específico. Não escreva em todos os LEDs encontrados se houver vários teclados.
 
 Para parar temporariamente ou desabilitar a inicialização automática:
 
@@ -126,7 +137,7 @@ sudo systemctl enable --now scrolllock-rgb.service
 
 ## Atualização e remoção
 
-Não há comando dedicado de atualização. Consulte o [histórico](CHANGELOG.md), pare o serviço, atualize o clone e execute o instalador novamente apenas se aceitar a substituição dos arquivos:
+Não há comando dedicado de atualização. Consulte o [histórico](HISTORICO.md), pare o serviço, atualize o clone e execute o instalador novamente apenas se aceitar a substituição dos arquivos:
 
 ```sh
 sudo systemctl stop scrolllock-rgb.service
@@ -175,13 +186,13 @@ São bem-vindos relatos de compatibilidade, testes de regressão, melhorias na d
 | Recurso | Finalidade |
 |---|---|
 | [Guia de contribuição](CONTRIBUICAO.md) | Fluxo, segurança e testes |
-| [Código de conduta](CODIGO_DE_CONDUTA.md) | Participação respeitosa |
+| [Código de conduta](CODIGO-DE-CONDUTA.md) | Participação respeitosa |
 | [Política de segurança](SEGURANCA.md) | Comunicação privada responsável |
 | [Issues](https://github.com/kayo-willian/scrolllock-rgb-fix/issues) | Erros, compatibilidade e propostas |
 | [Pull Requests](https://github.com/kayo-willian/scrolllock-rgb-fix/pulls) | Alterações propostas e revisões |
-| [Histórico](CHANGELOG.md) | Histórico de desenvolvimento |
+| [Histórico](HISTORICO.md) | Histórico de desenvolvimento |
 
-As issues criadas pelo projeto e seus modelos são bilíngues; participantes podem escrever em português brasileiro ou inglês. Código, commits e PRs utilizam inglês. O README, o guia de contribuição, o código de conduta e a política de segurança estão disponíveis em inglês e português brasileiro. O guia de diagnóstico, o registro técnico histórico e o histórico de alterações também têm tradução para português brasileiro. Não há prazo garantido de resposta ou lançamento. Forks independentes permanecem livres sob MIT.
+As issues criadas pelo projeto e seus modelos são bilíngues; participantes podem escrever em inglês ou português brasileiro. Código, commits e PRs utilizam inglês. O README, o guia de contribuição, o código de conduta e a política de segurança estão disponíveis em inglês e português brasileiro em [pt-BR/](README.md). O guia de diagnóstico, o registro técnico histórico e o histórico de alterações também têm tradução para português brasileiro. As contribuições são revisadas quando houver disponibilidade; não há prazo garantido de resposta ou lançamento. Forks independentes permanecem livres para evoluir sob MIT.
 
 ## Créditos
 

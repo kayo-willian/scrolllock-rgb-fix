@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-[Português (Brasil)](../pt-BR/docs/troubleshooting.md) · [Home](../README.md)
+[Português (Brasil)](../pt-BR/docs/diagnostico.md) · [Home](../README.md)
 
 Use a noncritical keyboard with another input method available. The shipped service runs as root. Do not capture or share arbitrary keyboard events.
 
@@ -53,7 +53,7 @@ The daemon reasserts its desired Scroll Lock state after an EV_LED event with a 
 
 ## 5. USB reconnection and shutdown
 
-When the read loop reports a connection error, the daemon closes the selected input device and retries discovery at two-second intervals. A missing keyboard or LED also causes retrying. Each new listener initializes the state to off. The existing retry and shutdown logic is not a guarantee of prompt recovery or termination in all cases.
+When the read loop reports a connection error, the daemon closes the selected input device and retries discovery at two-second intervals. A missing keyboard or LED also causes retrying. Each new listener attempts to initialize the state to off. The existing retry and shutdown logic is not a guarantee of prompt recovery or termination in all cases.
 
 Use `sudo systemctl stop scrolllock-rgb.service` to stop, or `sudo systemctl disable --now scrolllock-rgb.service` to disable startup. Check actual unit status. If stopping fails, investigate systemd and the daemon logs before continuing with removal.
 
